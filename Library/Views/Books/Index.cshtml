@@ -1,0 +1,117 @@
+﻿@model Library.Models.LibraryFilterable
+
+@{
+    ViewData["Title"] = "All books";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<script>
+    function clearFilters() {
+        for (let name of arguments) {
+            document.getElementsByName(name)[0].value = "";
+        }
+    }
+
+    function setSortColumn(column) {
+        document.getElementsByName("sortBy")[0].value = column;
+        console.log(column);
+    }
+</script>
+
+
+<form asp-controller="Books" asp-action="Index" method="get">
+    <input type="hidden" name="sortBy" value="" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.books[0].Title)
+                    <p>
+                        <input type="text" name="title" style="width: 70%" valie="@Model.FilterTitle" />
+                        <input type="submit" value="&darr;" onclick="setSortColumn('title')" />
+                    </p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.books[0].Author)
+                    <p>
+                        <input type="text" name="author" style="width: 70%" valie="@Model.FilterAuthor" />
+                        <input type="submit" value="&darr;" onclick="setSortColumn('author')" />
+                    </p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.books[0].ISBN)
+                    <p>
+                        <input type="text" name="isbn" style="width: 70%" valie="@Model.FilterISBN" />
+                        <input type="submit" value="&darr;" onclick="setSortColumn('isbn')" />
+                    </p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.books[0].PublicationYear)
+                    <p>
+                        <input type="text" name="year" style="width: 70%" valie="@Model.FilterYear" />
+                        <input type="submit" value="&darr;" onclick="setSortColumn('year')" />
+                    </p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.books[0].Publisher)
+                    <p>
+                        <input type="text" name="publisher" style="width: 70%" valie="@Model.FilterPublisher" />
+                        <input type="submit" value="&darr;" onclick="setSortColumn('publisher')" />
+                    </p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.books[0].Country)
+                    <p>
+                        <input type="text" name="country" style="width: 70%" valie="@Model.FilterCountry" />
+                        <input type="submit" value="&darr;" onclick="setSortColumn('country')" />
+                    </p>
+                </th>
+                <th>
+                    <p>
+                        <input type="submit" value="Filter" />
+                        <a asp-action="Index">
+                            <input asp-action="Index" type="button" value="X" onclick="clearFilters('title', 'author', 'isbn', 'year', 'publisher', 'country')" />
+                        </a>
+                    </p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.books)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ISBN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PublicationYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Publisher)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

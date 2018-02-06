@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Library.Models;
 
 namespace Library
 {
@@ -22,6 +24,9 @@ namespace Library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<LibraryContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LibraryContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,7 +39,7 @@ namespace Library
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Books/Error");
             }
 
             app.UseStaticFiles();
@@ -43,7 +48,7 @@ namespace Library
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Books}/{action=Index}/{id?}");
             });
         }
     }
