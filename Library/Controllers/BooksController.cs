@@ -19,7 +19,7 @@ namespace Library.Controllers
 
         // GET: Books
         public async Task<IActionResult> Index(string title, string author, string isbn,
-            string year, string publisher, string country, string sortBy)
+            string year, string publisher, string country, string sortBy, string asc)
         {
             var books = from m in _context.Book
                          select m;
@@ -54,41 +54,102 @@ namespace Library.Controllers
                 books = books.Where(b => b.Country.StartsWith(country));
             }
 
-            if (!String.IsNullOrEmpty(sortBy))
-            {
-                switch(sortBy)
-                {
-                    case "title":
-                        books = books.OrderBy(b => b.Title);
-                        break;
-                    case "author":
-                        books = books.OrderBy(b => b.Author);
-                        break;
-                    case "isbn":
-                        books = books.OrderBy(b => b.ISBN);
-                        break;
-                    case "year":
-                        books = books.OrderBy(b => b.PublicationYear);
-                        break;
-                    case "publisher":
-                        books = books.OrderBy(b => b.Publisher);
-                        break;
-                    case "country":
-                        books = books.OrderBy(b => b.Country);
-                        break;
-                }
-            }
-
             var library = new LibraryFilterable
             {
-                books = await books.ToListAsync(),
                 FilterTitle = title,
                 FilterAuthor = author,
                 FilterISBN = isbn,
                 FilterYear = year,
                 FilterPublisher = publisher,
-                FilterCountry = country
+                FilterCountry = country,
+                OrderByTitleArrow = "↓",
+                OrderByAuthorArrow = "↓",
+                OrderByISBNArrow = "↓",
+                OrderByYearArrow = "↓",
+                OrderByPublisherArrow = "↓",
+                OrderByCountryArrow = "↓",
             };
+
+            if (!String.IsNullOrEmpty(sortBy) && !String.IsNullOrEmpty(asc))
+            {
+                switch(sortBy)
+                {
+                    case "title":
+                        if (asc.Equals("true"))
+                        {
+                            books = books.OrderBy(b => b.Title);
+                            library.OrderByTitleArrow = "↑";
+                        }
+                        else
+                        {
+                            books = books.OrderByDescending(b => b.Title);
+                            library.OrderByTitleArrow = "↓";
+                        }
+                        break;
+                    case "author":
+                        if (asc.Equals("true"))
+                        {
+                            books = books.OrderBy(b => b.Author);
+                            library.OrderByAuthorArrow = "↑";
+                        }
+                        else
+                        {
+                            books = books.OrderByDescending(b => b.Author);
+                            library.OrderByAuthorArrow = "↓";
+                        }
+                        break;
+                    case "isbn":
+                        if (asc.Equals("true"))
+                        {
+                            books = books.OrderBy(b => b.ISBN);
+                            library.OrderByISBNArrow = "↑";
+                        }
+                        else
+                        {
+                            books = books.OrderByDescending(b => b.ISBN);
+                            library.OrderByISBNArrow = "↓";
+                        }
+                        break;
+                    case "year":
+                        if (asc.Equals("true"))
+                        {
+                            books = books.OrderBy(b => b.PublicationYear);
+                            library.OrderByYearArrow = "↑";
+                        }
+                        else
+                        {
+                            books = books.OrderByDescending(b => b.PublicationYear);
+                            library.OrderByYearArrow = "↓";
+                        }
+                        break;
+                    case "publisher":
+                        if (asc.Equals("true"))
+                        {
+                            books = books.OrderBy(b => b.Publisher);
+                            library.OrderByPublisherArrow = "↑";
+                        }
+                        else
+                        {
+                            books = books.OrderByDescending(b => b.Publisher);
+                            library.OrderByPublisherArrow = "↓";
+                        }
+                        break;
+                    case "country":
+                        if (asc.Equals("true"))
+                        {
+                            books = books.OrderBy(b => b.Country);
+                            library.OrderByCountryArrow = "↑";
+                        }
+                        else
+                        {
+                            books = books.OrderByDescending(b => b.Country);
+                            library.OrderByCountryArrow = "↓";
+                        }
+                        break;
+                }
+            }
+            
+            library.books = await books.ToListAsync();
 
             return View(library);
         }

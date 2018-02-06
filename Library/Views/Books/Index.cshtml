@@ -20,6 +20,8 @@
 
     function setSortColumn(column) {
         document.getElementsByName("sortBy")[0].value = column;
+        let asc = document.getElementsByName(column + "Arrow")[0].value == "↓";
+        document.getElementsByName("asc")[0].value = asc ? "true" : "false";
         console.log(column);
     }
 </script>
@@ -27,6 +29,7 @@
 
 <form asp-controller="Books" asp-action="Index" method="get">
     <input type="hidden" name="sortBy" value="" />
+    <input type="hidden" name="asc" value="" />
 
     <table class="table">
         <thead>
@@ -35,42 +38,42 @@
                     @Html.DisplayNameFor(model => model.books[0].Title)
                     <p>
                         <input type="text" name="title" style="width: 70%" value="@Model.FilterTitle" />
-                        <input type="submit" value="&darr;" onclick="setSortColumn('title')" />
+                        <input type="submit" name="titleArrow" value="@Model.OrderByTitleArrow" onclick="setSortColumn('title')" />
                     </p>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.books[0].Author)
                     <p>
                         <input type="text" name="author" style="width: 70%" value="@Model.FilterAuthor" />
-                        <input type="submit" value="&darr;" onclick="setSortColumn('author')" />
+                        <input type="submit" name="authorArrow" value="@Model.OrderByAuthorArrow" onclick="setSortColumn('author')" />
                     </p>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.books[0].ISBN)
                     <p>
                         <input type="text" name="isbn" style="width: 70%" value="@Model.FilterISBN" />
-                        <input type="submit" value="&darr;" onclick="setSortColumn('isbn')" />
+                        <input type="submit" name="isbnArrow" value="@Model.OrderByISBNArrow" onclick="setSortColumn('isbn')" />
                     </p>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.books[0].PublicationYear)
                     <p>
                         <input type="text" name="year" style="width: 70%" value="@Model.FilterYear" />
-                        <input type="submit" value="&darr;" onclick="setSortColumn('year')" />
+                        <input type="submit" name="yearArrow" value="@Model.OrderByYearArrow" onclick="setSortColumn('year')" />
                     </p>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.books[0].Publisher)
                     <p>
                         <input type="text" name="publisher" style="width: 70%" value="@Model.FilterPublisher" />
-                        <input type="submit" value="&darr;" onclick="setSortColumn('publisher')" />
+                        <input type="submit" name="publisherArrow" value="@Model.OrderByPublisherArrow" onclick="setSortColumn('publisher')" />
                     </p>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.books[0].Country)
                     <p>
                         <input type="text" name="country" style="width: 70%" value="@Model.FilterCountry" />
-                        <input type="submit" value="&darr;" onclick="setSortColumn('country')" />
+                        <input type="submit" value="@Model.OrderByCountryArrow" onclick="setSortColumn('country')" />
                     </p>
                 </th>
                 <th>

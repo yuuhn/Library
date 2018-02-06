@@ -37,5 +37,12 @@ namespace Library.Models
         public string FilterYear { get; set; }
         public string FilterPublisher { get; set; }
         public string FilterCountry { get; set; }
+        
+        public string OrderByTitleArrow { get; set; }
+        public string OrderByAuthorArrow { get; set; }
+        public string OrderByISBNArrow { get; set; }
+        public string OrderByYearArrow { get; set; }
+        public string OrderByPublisherArrow { get; set; }
+        public string OrderByCountryArrow { get; set; }
     }
 }
