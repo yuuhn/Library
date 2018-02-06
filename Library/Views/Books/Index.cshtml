@@ -73,7 +73,7 @@
                     @Html.DisplayNameFor(model => model.books[0].Country)
                     <p>
                         <input type="text" name="country" style="width: 70%" value="@Model.FilterCountry" />
-                        <input type="submit" value="@Model.OrderByCountryArrow" onclick="setSortColumn('country')" />
+                        <input type="submit" name="countryArrow" value="@Model.OrderByCountryArrow" onclick="setSortColumn('country')" />
                     </p>
                 </th>
                 <th>

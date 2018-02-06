@@ -13,7 +13,7 @@ namespace Library.Models
         [Required(ErrorMessage = "Author is required")]
         public string Author { get; set; }
         
-        [RegularExpression(@"^(0[0-9]{9}|[0-9]{13})$", ErrorMessage = "Wrong ISBN")]
+        [RegularExpression(@"^([0-9]{10}|[0-9]{13})$", ErrorMessage = "Wrong ISBN")]
         public string ISBN { get; set; }
 
         [Display(Name = "Publication Year")]
